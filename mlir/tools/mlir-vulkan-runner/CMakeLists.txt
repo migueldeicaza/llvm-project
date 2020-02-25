@@ -17,6 +17,7 @@ if (MLIR_VULKAN_RUNNER_ENABLED)
   # If Vulkan is not found try a path specified by VULKAN_SDK.
   if (NOT Vulkan_FOUND)
     if ("$ENV{VULKAN_SDK}" STREQUAL "")
+      message(FATAL_ERROR "XX" + "$ENV{VULKAN_SDK}" + "YY")
       message(FATAL_ERROR "Please use at least CMAKE 3.7.0 or provide "
                           "VULKAN_SDK path as an environment variable")
     endif()

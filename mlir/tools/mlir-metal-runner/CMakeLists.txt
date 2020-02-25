@@ -8,34 +8,9 @@ set(LLVM_OPTIONAL_SOURCES
 if (MLIR_METAL_RUNNER_ENABLED)
   message(STATUS "Building the Metal runner")
 
-  # At first try "FindMetal" from:
-  # https://cmake.org/cmake/help/v3.7/module/FindMetal.html
-  if (NOT CMAKE_VERSION VERSION_LESS 3.7.0)
-    find_package(Metal)
-  endif()
-
-  # If Metal is not found try a path specified by METAL_SDK.
-  if (NOT Metal_FOUND)
-    if ("$ENV{METAL_SDK}" STREQUAL "")
-      message(FATAL_ERROR "Please use at least CMAKE 3.7.0 or provide "
-                          "METAL_SDK path as an environment variable")
-    endif()
-
-    find_library(Metal_LIBRARY metal HINTS "$ENV{METAL_SDK}/lib" REQUIRED)
-    if (Metal_LIBRARY)
-      set(Metal_FOUND ON)
-      set(Metal_INCLUDE_DIR "$ENV{METAL_SDK}/include")
-      message(STATUS "Found Metal: " ${Metal_LIBRARY})
-    endif()
-  endif()
-
-  if (NOT Metal_FOUND)
-    message(FATAL_ERROR "Cannot find Metal library")
-  endif()
-
   add_llvm_library(metal-runtime-wrappers SHARED
-    metal-runtime-wrappers.cpp
-    MetalRuntime.cpp
+    metal-runtime-wrappers.mm
+    MetalRuntime.mm
   )
 
   target_include_directories(metal-runtime-wrappers
@@ -48,7 +23,7 @@ if (MLIR_METAL_RUNNER_ENABLED)
     MLIRSPIRVSerialization
     LLVMCore
     LLVMSupport
-    ${Metal_LIBRARY}
+    "-framework Metal"
   )
 
   set(LIBS
@@ -96,7 +71,7 @@ if (MLIR_METAL_RUNNER_ENABLED)
   ENDFOREACH(t)
 
   add_llvm_tool(mlir-metal-runner
-    mlir-metal-runner.cpp
+    mlir-metal-runner.mm
   )
   add_dependencies(mlir-metal-runner metal-runtime-wrappers)
   llvm_update_compile_flags(mlir-metal-runner)
