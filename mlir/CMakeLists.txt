@@ -49,6 +49,7 @@ add_definitions(-DMLIR_CUDA_CONVERSIONS_ENABLED=${MLIR_CUDA_CONVERSIONS_ENABLED}
 
 set(MLIR_CUDA_RUNNER_ENABLED 0 CACHE BOOL "Enable building the mlir CUDA runner")
 set(MLIR_VULKAN_RUNNER_ENABLED 0 CACHE BOOL "Enable building the mlir Vulkan runner")
+set(MLIR_METAL_RUNNER_ENABLED 0 CACHE BOOL "Enable building the mlir Metal runner")
 
 include_directories( "include")
 include_directories( ${MLIR_INCLUDE_DIR})

@@ -68,7 +68,8 @@ tools.extend([
     ToolSubst('toy-ch5', unresolved='ignore'),
     ToolSubst('%linalg_test_lib_dir', config.linalg_test_lib_dir, unresolved='ignore'),
     ToolSubst('%cuda_wrapper_library_dir', config.cuda_wrapper_library_dir, unresolved='ignore'),
-    ToolSubst('%vulkan_wrapper_library_dir', config.vulkan_wrapper_library_dir, unresolved='ignore')
+    ToolSubst('%vulkan_wrapper_library_dir', config.vulkan_wrapper_library_dir, unresolved='ignore'),
+    ToolSubst('%metal_wrapper_library_dir', config.metal_wrapper_library_dir, unresolved='ignore')
 ])
 
 llvm_config.add_tool_substitutions(tools, tool_dirs)

@@ -37,6 +37,7 @@ set(LIBS
   MLIRGPUtoROCDLTransforms
   MLIRGPUtoSPIRVTransforms
   MLIRGPUtoVulkanTransforms
+  MLIRGPUtoMetalTransforms
   MLIRLinalgOps
   MLIRLinalgAnalysis
   MLIRLinalgEDSC
