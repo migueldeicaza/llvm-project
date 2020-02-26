@@ -31,19 +31,19 @@ using BindingIndex = uint32_t;
 
 /// Struct containing information regarding to a device memory buffer.
 struct MetalDeviceMemoryBuffer {
-  BindingIndex bindingIndex{0};
-  VkDescriptorType descriptorType{VK_DESCRIPTOR_TYPE_MAX_ENUM};
-  VkDescriptorBufferInfo bufferInfo{};
-  VkBuffer buffer{VK_NULL_HANDLE};
-  VkDeviceMemory deviceMemory{VK_NULL_HANDLE};
+  // BindingIndex bindingIndex{0};
+  // VkDescriptorType descriptorType{VK_DESCRIPTOR_TYPE_MAX_ENUM};
+  // VkDescriptorBufferInfo bufferInfo{};
+  // VkBuffer buffer{VK_NULL_HANDLE};
+  // VkDeviceMemory deviceMemory{VK_NULL_HANDLE};
 };
 
 /// Struct containing information regarding to a host memory buffer.
 struct MetalHostMemoryBuffer {
-  /// Pointer to a host memory.
-  void *ptr{nullptr};
-  /// Size of a host memory in bytes.
-  uint32_t size{0};
+  // /// Pointer to a host memory.
+  // void *ptr{nullptr};
+  // /// Size of a host memory in bytes.
+  // uint32_t size{0};
 };
 
 /// Struct containing the number of local workgroups to dispatch for each
@@ -57,11 +57,11 @@ struct NumWorkGroups {
 /// Struct containing information regarding a descriptor set.
 struct DescriptorSetInfo {
   /// Index of a descriptor set in descriptor sets.
-  DescriptorSetIndex descriptorSet{0};
+  // DescriptorSetIndex descriptorSet{0};
   /// Number of desriptors in a set.
-  uint32_t descriptorSize{0};
+  // uint32_t descriptorSize{0};
   /// Type of a descriptor set.
-  VkDescriptorType descriptorType{VK_DESCRIPTOR_TYPE_MAX_ENUM};
+  // VkDescriptorType descriptorType{VK_DESCRIPTOR_TYPE_MAX_ENUM};
 };
 
 /// MetalHostMemoryBuffer mapped into a descriptor set and a binding.
@@ -74,10 +74,10 @@ using ResourceStorageClassBindingMap =
     llvm::DenseMap<DescriptorSetIndex,
                    llvm::DenseMap<BindingIndex, mlir::spirv::StorageClass>>;
 
-inline void emitMetalError(const llvm::Twine &message, VkResult error) {
-  llvm::errs()
-      << message.concat(" failed with error code ").concat(llvm::Twine{error});
-}
+// inline void emitMetalError(const llvm::Twine &message, VkResult error) {
+//   llvm::errs()
+//       << message.concat(" failed with error code ").concat(llvm::Twine{error});
+// }
 
 #define RETURN_ON_METAL_ERROR(result, msg)                                    \
   if ((result) != VK_SUCCESS) {                                                \
@@ -130,7 +130,7 @@ private:
 
   LogicalResult createInstance();
   LogicalResult createDevice();
-  LogicalResult getBestComputeQueue(const VkPhysicalDevice &physicalDevice);
+	// LogicalResult getBestComputeQueue(const VkPhysicalDevice &physicalDevice);
   LogicalResult createMemoryBuffers();
   LogicalResult createShaderModule();
   void initDescriptorSetLayoutBindingMap();
@@ -148,6 +148,7 @@ private:
   // Helper methods.
   //===--------------------------------------------------------------------===//
 
+#if 0
   /// Maps storage class to a descriptor type.
   LogicalResult
   mapStorageClassToDescriptorType(spirv::StorageClass storageClass,
@@ -157,16 +158,16 @@ private:
   LogicalResult
   mapStorageClassToBufferUsageFlag(spirv::StorageClass storageClass,
                                    VkBufferUsageFlagBits &bufferUsage);
-
+#endif
   LogicalResult countDeviceMemorySize();
 
   //===--------------------------------------------------------------------===//
   // Metal objects.
   //===--------------------------------------------------------------------===//
 
-  VkInstance instance;
-  VkDevice device;
-  VkQueue queue;
+  // VkInstance instance;
+  // VkDevice device;
+  // VkQueue queue;
 
   /// Specifies MetalDeviceMemoryBuffers divided into sets.
   llvm::DenseMap<DescriptorSetIndex,
@@ -174,8 +175,9 @@ private:
       deviceMemoryBufferMap;
 
   /// Specifies shader module.
-  VkShaderModule shaderModule;
+  // VkShaderModule shaderModule;
 
+#if 0
   /// Specifies layout bindings.
   llvm::DenseMap<DescriptorSetIndex,
                  llvm::SmallVector<VkDescriptorSetLayoutBinding, 1>>
@@ -187,24 +189,27 @@ private:
 
   /// Specifies descriptor sets.
   llvm::SmallVector<VkDescriptorSet, 1> descriptorSets;
-
+#endif
+	
   /// Specifies a pool of descriptor set info, each descriptor set must have
   /// information such as type, index and amount of bindings.
   llvm::SmallVector<DescriptorSetInfo, 1> descriptorSetInfoPool;
+
+#if 0
   VkDescriptorPool descriptorPool;
 
   /// Computation pipeline.
   VkPipeline pipeline;
   VkCommandPool commandPool;
   llvm::SmallVector<VkCommandBuffer, 1> commandBuffers;
-
+#endif
   //===--------------------------------------------------------------------===//
   // Metal memory context.
   //===--------------------------------------------------------------------===//
 
   uint32_t queueFamilyIndex{0};
-  uint32_t memoryTypeIndex{VK_MAX_MEMORY_TYPES};
-  VkDeviceSize memorySize{0};
+  uint32_t _memoryTypeIndex{10}; // { TODO: VK_MAX_MEMORY_TYPES};
+	// VkDeviceSize memorySize{0};
 
   //===--------------------------------------------------------------------===//
   // Metal execution context.

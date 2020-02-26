@@ -23,7 +23,7 @@ namespace {
 // `deinitMetal` to be more explicit and to avoid static initialization and
 // destruction.
 class MetalRuntimeManager;
-static llvm::ManagedStatic<MetalRuntimeManager> vkRuntimeManager;
+// static llvm::ManagedStatic<MetalRuntimeManager> vkRuntimeManager;
 
 class MetalRuntimeManager {
   public:
@@ -75,23 +75,28 @@ extern "C" {
 void setResourceData(const DescriptorSetIndex setIndex, BindingIndex bindIndex,
                      float *allocated, float *aligned, int64_t offset,
                      int64_t size, int64_t stride, float value) {
-  std::fill_n(allocated, size, value);
-  MetalHostMemoryBuffer memBuffer{allocated,
-                                   static_cast<uint32_t>(size * sizeof(float))};
-  vkRuntimeManager->setResourceData(setIndex, bindIndex, memBuffer);
+  //std::fill_n(allocated, size, value);
+  // MetalHostMemoryBuffer memBuffer{allocated, static_cast<uint32_t>(size * sizeof(float))};
+  llvm::report_fatal_error ("metal::setResourceData");
+// vkRuntimeManager->setResourceData(setIndex, bindIndex, memBuffer);
 }
 
 void setEntryPoint(const char *entryPoint) {
-  vkRuntimeManager->setEntryPoint(entryPoint);
+  llvm::report_fatal_error ("metal::setEntryPoint");
+//  vkRuntimeManager->setEntryPoint(entryPoint);
 }
 
 void setNumWorkGroups(uint32_t x, uint32_t y, uint32_t z) {
-  vkRuntimeManager->setNumWorkGroups({x, y, z});
+  llvm::report_fatal_error ("metal::setNumWorkGroups");
+//  vkRuntimeManager->setNumWorkGroups({x, y, z});
 }
 
 void setBinaryShader(uint8_t *shader, uint32_t size) {
-  vkRuntimeManager->setShaderModule(shader, size);
+  llvm::report_fatal_error ("metal::setBinaryShader");
+//  vkRuntimeManager->setShaderModule(shader, size);
 }
 
-void runOnMetal() { vkRuntimeManager->runOnMetal(); }
+void runOnMetal() {
+  llvm::report_fatal_error ("metal::runOnMetal");
+}
 }
